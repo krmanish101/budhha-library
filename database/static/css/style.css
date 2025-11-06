@@ -1,0 +1,22 @@
+body {
+  background-color: #f5f6fa;
+  font-family: "Segoe UI", sans-serif;
+}
+
+#sidebar {
+  width: 220px;
+  transition: all 0.3s;
+}
+
+.nav-link:hover {
+  background-color: #495057;
+  border-radius: 5px;
+}
+
+.card {
+  border: none;
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: translateY(-3px);
+}

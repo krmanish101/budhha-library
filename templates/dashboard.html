@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard Overview</h2>
+<div class="row mt-4">
+  <div class="col-md-3">
+    <div class="card text-center p-3">
+      <h5>Total Students</h5>
+      <h3>{{ total_students }}</h3>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center p-3">
+      <h5>Total Books</h5>
+      <h3>{{ total_books }}</h3>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center p-3">
+      <h5>Issued Books</h5>
+      <h3>{{ issued_books }}</h3>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center p-3">
+      <h5>Total Fees Collected</h5>
+      <h3>₹{{ total_fees }}</h3>
+    </div>
+  </div>
+</div>
+{% endblock %}

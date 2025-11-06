@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Student Management</h2>
+
+    <!-- Add Student Form -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">Add New Student</div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('add_student') }}">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <input type="text" name="name" class="form-control" placeholder="Student Name" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="father" class="form-control" placeholder="Father's Name" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="phone" class="form-control" placeholder="Phone Number" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="address" class="form-control" placeholder="Address">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" name="shift" class="form-control" placeholder="Shift (e.g. Morning)">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" name="sheet_no" class="form-control" placeholder="Sheet No">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="aadhar_number" class="form-control" placeholder="Aadhar Number">
+                    </div>
+                </div>
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-success">Add Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Students Table -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">Student Records</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Father</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Shift</th>
+                            <th>Sheet No</th>
+                            <th>Aadhar</th>
+                            <th>Admission Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in students %}
+                        <tr>
+                            <td>{{ s[0] }}</td>
+                            <td>{{ s[1] }}</td>
+                            <td>{{ s[2] }}</td>
+                            <td>{{ s[3] }}</td>
+                            <td>{{ s[4] }}</td>
+                            <td>{{ s[5] }}</td>
+                            <td>{{ s[6] }}</td>
+                            <td>{{ s[7] }}</td>
+                            <td>{{ s[8] }}</td>
+                            <td>
+                                <!-- Edit Button -->
+                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ s[0] }}">Edit</button>
+                                <!-- Delete Button -->
+                                <form method="POST" action="{{ url_for('delete_student', id=s[0]) }}" style="display:inline-block;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this student?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+
+                        <!-- Edit Modal -->
+                        <div class="modal fade" id="editModal{{ s[0] }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <form method="POST" action="{{ url_for('edit_student', id=s[0]) }}">
+                                        <div class="modal-header bg-primary text-white">
+                                            <h5 class="modal-title">Edit Student</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <input type="text" name="name" class="form-control" value="{{ s[1] }}" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="text" name="father" class="form-control" value="{{ s[2] }}" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="text" name="phone" class="form-control" value="{{ s[3] }}" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="text" name="address" class="form-control" value="{{ s[4] }}">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="text" name="shift" class="form-control" value="{{ s[5] }}">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="text" name="sheet_no" class="form-control" value="{{ s[6] }}">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="text" name="aadhar_number" class="form-control" value="{{ s[7] }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Save Changes</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

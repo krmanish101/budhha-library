@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Reports</h2>
+
+<div class="row g-3">
+  <div class="col-md-3 col-6">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title text-muted">Total Students</h6>
+        <h3>{{ total_students or 0 }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title text-muted">Total Books</h6>
+        <h3>{{ total_books or 0 }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title text-muted">Issued Books</h6>
+        <h3>{{ issued_books or 0 }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title text-muted">Total Fees (₹)</h6>
+        <h3>{{ total_fees or 0 }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="my-4">
+
+<p class="text-muted">Reports automatically summarize data from Students, Books, and Fees tables.</p>
+{% endblock %}

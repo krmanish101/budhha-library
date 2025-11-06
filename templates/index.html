@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row g-3">
+  <div class="col-md-3 col-6">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Total Students</h5>
+        <p class="display-6">{{ total_students or 0 }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Books</h5>
+        <p class="display-6">{{ total_books or 0 }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Issued</h5>
+        <p class="display-6">{{ issued_books or 0 }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Fees (₹)</h5>
+        <p class="display-6">{{ total_fees or 0 }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
