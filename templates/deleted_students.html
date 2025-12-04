@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Deleted Students{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4 text-danger">Deleted Students</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">Inactive Students</div>
+
+        <div class="card-body table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Father</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for s in students %}
+                    <tr>
+                        <td>{{ s[0] }}</td>
+                        <td>{{ s[1] }}</td>
+                        <td>{{ s[2] }}</td>
+                        <td>{{ s[3] }}</td>
+                        <td>{{ s[4] }}</td>
+                        <td>
+                            <!-- Restore -->
+                            <form method="POST" action="{{ url_for('restore_student', id=s[0]) }}" style="display:inline-block;">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Restore
+                                </button>
+                            </form>
+
+                            <!-- Permanent Delete -->
+                            <form method="POST" action="{{ url_for('permanent_delete_student', id=s[0]) }}"
+                                  style="display:inline-block;">
+                                <button type="submit" class="btn btn-dark btn-sm"
+                                        onclick="return confirm('Delete permanently?')">
+                                    Delete Forever
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                    {% if students|length == 0 %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">
+                            No Deleted Students Found
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -8,18 +8,34 @@
       <h3>{{ total_students }}</h3>
     </div>
   </div>
+  <!--
   <div class="col-md-3">
     <div class="card text-center p-3">
       <h5>Total Books</h5>
       <h3>{{ total_books }}</h3>
     </div>
-  </div>
+  </div>  
   <div class="col-md-3">
     <div class="card text-center p-3">
       <h5>Issued Books</h5>
       <h3>{{ issued_books }}</h3>
     </div>
   </div>
+  -->
+  
+  <div class="col-md-3">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title text-danger">Old Students</h5>
+      <p class="card-text display-6">{{ inactive_students }}</p>
+      <a href="{{ url_for('deleted_students') }}" class="btn btn-outline-danger btn-sm">
+        View Deleted
+      </a>
+    </div>
+  </div>
+</div>
+
+  
   <div class="col-md-3">
     <div class="card text-center p-3">
       <h5>Total Fees Collected</h5>
