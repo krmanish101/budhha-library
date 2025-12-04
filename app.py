@@ -108,7 +108,7 @@ def index():
 def students():
     conn = sqlite3.connect(get_db_path())
     c = conn.cursor()
-    c.execute("SELECT * FROM students WHERE is_active = 1 ORDER BY id DESC")
+    c.execute("SELECT * FROM students WHERE is_active = 1 ORDER BY sheet_no ASC")
     students = c.fetchall()
     conn.close()
     return render_template('students.html', students=students)
@@ -243,7 +243,7 @@ def delete_student(id):
 def deleted_students():
     conn = sqlite3.connect(get_db_path())
     c = conn.cursor()
-    c.execute("SELECT * FROM students WHERE is_active = 0 ORDER BY id DESC")
+    c.execute("SELECT * FROM students WHERE is_active = 0 ORDER BY sheet_no ASC")
     students = c.fetchall()
     conn.close()
     return render_template('deleted_students.html', students=students)
