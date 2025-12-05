@@ -3,377 +3,336 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Buddha Library Telhara Nalanda</h2>
+  <h2 class="text-center mb-4">Buddha Library Telhara Nalanda</h2>
 
-    <!-- Add Student Form -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-primary text-white">Add New Student</div>
-        <div class="card-body">
-            <form method="POST"
-                  action="{{ url_for('add_student') }}"
-                  enctype="multipart/form-data">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <input type="text" name="name" class="form-control"
-                               placeholder="Student Name" required>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" name="father" class="form-control"
-                               placeholder="Father's Name" required>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" name="phone" class="form-control"
-                               placeholder="Phone Number" required>
-                    </div>
+  <!-- Add Student Form -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">Add New Student</div>
+    <div class="card-body">
+      <form method="POST"
+            action="{{ url_for('add_student') }}"
+            enctype="multipart/form-data">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <input type="text" name="name" class="form-control"
+                   placeholder="Student Name" required>
+          </div>
+          <div class="col-md-3">
+            <input type="text" name="father" class="form-control"
+                   placeholder="Father's Name" required>
+          </div>
+          <div class="col-md-3">
+            <input type="text" name="phone" class="form-control"
+                   placeholder="Phone Number" required>
+          </div>
+          <div class="col-md-3">
+            <input type="text" name="address" class="form-control"
+                   placeholder="Address">
+          </div>
 
-                    <div class="col-md-4">
-                        <input type="text" name="address" class="form-control"
-                               placeholder="Address">
-                    </div>
-                    <div class="col-md-2">
-                        <input type="text" name="shift" class="form-control"
-                               placeholder="Shift (e.g. 10 to 6)">
-                    </div>
-                    <div class="col-md-2">
-                        <input type="text" name="sheet_no" class="form-control"
-                               placeholder="Sheet No">
-                    </div>
+          <div class="col-md-3">
+            <select name="shift" class="form-select">
+              <option value="">Select Shift</option>
+              {% for m in [
+                '9 To 3','10 To 4','10 To 6','24/7','Night Shift','Full Day'
+              ] %}
+              <option value="{{ m }}">{{ m }}</option>
+              {% endfor %}
+            </select>
+          </div>
 
-                    <!-- Admission Month dropdown -->
-                    <div class="col-md-2">
-                        <select name="admission_month" class="form-control" required>
-                            <option value="" disabled selected>Admission Month</option>
-                            <option>January</option>
-                            <option>February</option>
-                            <option>March</option>
-                            <option>April</option>
-                            <option>May</option>
-                            <option>June</option>
-                            <option>July</option>
-                            <option>August</option>
-                            <option>September</option>
-                            <option>October</option>
-                            <option>November</option>
-                            <option>December</option>
-                        </select>
-                    </div>
+          <div class="col-md-2">
+            <input type="text" name="sheet_no" class="form-control"
+                   placeholder="Sheet No">
+          </div>
 
-                    <div class="col-md-2">
-                        <input type="number" step="0.01" name="fee_amount"
-                               class="form-control" placeholder="Fee Amount">
-                    </div>
+          <div class="col-md-3">
+            <!-- Admission Month dropdown -->
+            <select name="admission_month" class="form-select">
+              <option value="">Admission Month</option>
+              {% for m in [
+                'January','February','March','April','May','June',
+                'July','August','September','October','November','December'
+              ] %}
+              <option value="{{ m }}">{{ m }}</option>
+              {% endfor %}
+            </select>
+          </div>
 
-                    <div class="col-md-4">
-                        <input type="text" name="aadhar_number" class="form-control"
-                               placeholder="Aadhar Number">
-                    </div>
+          <div class="col-md-2">
+            <input type="number" step="0.01" name="fee_amount"
+                   class="form-control" placeholder="Fee Amount">
+          </div>
 
-                    <!-- Aadhar Photo Upload -->
-                    <div class="col-md-4">
-                        <input type="file" name="aadhar_image" class="form-control"
-                               accept="image/*">
-                    </div>
-                </div>
+          <div class="col-md-2">
+            <input type="text" name="aadhar_number"
+                   class="form-control" placeholder="Aadhar Number">
+          </div>
 
-                <div class="text-end mt-3">
-                    <button type="submit" class="btn btn-success">Add Student</button>
-                </div>
-            </form>
+          <div class="col-md-4 mt-2">
+            <input type="file" name="aadhar_image"
+                   class="form-control">
+          </div>
         </div>
+
+        <div class="text-end mt-3">
+          <button type="submit" class="btn btn-success">
+            Add Student
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <!-- Students Table -->
-    <div class="card shadow-sm">
-        <div class="card-header bg-dark text-white">Student Records</div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Father</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Shift</th>
-                            <th>Sheet No</th>
-                            <th>Admission Month</th>
-                            <th>Fee Amount</th>
-                            <th>Aadhar</th>
-                            <th>Admission Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for s in students %}
-                        <tr>
-                            <td>{{ s[0] }}</td>  <!-- ID -->
-                            <td>{{ s[1] }}</td>  <!-- Name -->
-                            <td>{{ s[2] }}</td>  <!-- Father -->
-                            <td>{{ s[3] }}</td>  <!-- Phone -->
-                            <td>{{ s[4] }}</td>  <!-- Address -->
-                            <td>{{ s[5] }}</td>  <!-- Shift -->
-                            <td>{{ s[6] }}</td>  <!-- Sheet No -->
-                            <td>{{ s[7] }}</td>  <!-- Admission Month -->
-                            <td>₹{{ "%.2f"|format(s[8] or 0) }}</td>  <!-- Fee Amount -->
+  <!-- Students Table -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">Student Records</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Father</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Shift</th>
+              <th>Sheet No</th>
+              <th>Admission Month</th>
+              <th>Fee Amount</th>
+              <th>Aadhar</th>
+              <th>Admission Date</th>
+              <th>Aadhar Photo</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for s in students %}
+            <tr>
+              <td>{{ s[0] }}</td>  <!-- id -->
+              <td>{{ s[1] }}</td>  <!-- name -->
+              <td>{{ s[2] }}</td>  <!-- father -->
+              <td>{{ s[3] }}</td>  <!-- phone -->
+              <td>{{ s[4] }}</td>  <!-- address -->
+              <td>{{ s[5] }}</td>  <!-- shift -->
+              <td>{{ s[6] }}</td>  <!-- sheet no -->
+              <td>{{ s[7] }}</td>  <!-- admission month -->
+              <td>₹{{ (s[8] or 0)|float }}</td> <!-- fee amount -->
+              <td>{{ s[9] }}</td>  <!-- aadhar number -->
+              <td>{{ s[10] }}</td> <!-- admission date -->
 
+              <td>
+                {% if s[12] %}
+                  <button class="btn btn-outline-primary btn-sm"
+                          data-bs-toggle="modal"
+                          data-bs-target="#photoModal{{ s[0] }}">
+                    View Photo
+                  </button>
+                {% else %}
+                  <span class="text-muted">No Photo</span>
+                {% endif %}
+              </td>
 
-                            <!-- Aadhar Number + View Photo (Modal) -->
-                            <td>
-                                {{ s[9] }}  <!-- Aadhar Number -->
+              <td>
+                <!-- EDIT BUTTON -->
+                <button class="btn btn-warning btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editModal{{ s[0] }}">
+                  Edit
+                </button>
 
-                                {% if s[12] %}
-                                    <br>
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-primary mt-1"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#aadharModal{{ s[0] }}">
-                                        View Photo
-                                    </button>
-                                {% endif %}
-                            </td>
+                <!-- DELETE BUTTON -->
+                <form method="POST"
+                      action="{{ url_for('delete_student', id=s[0]) }}"
+                      style="display:inline-block;">
+                  <button type="submit"
+                          class="btn btn-danger btn-sm"
+                          onclick="return confirm('Move this student to Old Students?');">
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
 
-                            <td>{{ s[10] }}</td> <!-- Admission Date -->
-
-                            <td>
-                                <!-- Edit Button -->
-                                <button class="btn btn-warning btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#editModal{{ s[0] }}">
-                                    Edit
-                                </button>
-
-                                <!-- Delete Button -->
-                                <form method="POST"
-                                      action="{{ url_for('delete_student', id=s[0]) }}"
-                                      style="display:inline-block;">
-                                    <button type="submit"
-                                            class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Delete this student?')">
-                                        Delete
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-
-                        <!-- Aadhar Photo Modal (Zoom / Rotate / Download) -->
-                        <div class="modal fade" id="aadharModal{{ s[0] }}" tabindex="-1">
-                          <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title">Aadhar Photo - {{ s[1] }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                              </div>
-                              <div class="modal-body text-center">
-                                {% if s[12] %}
-                                  <img id="aadhar-img-{{ s[0] }}"
-                                       src="{{ url_for('static',
-                                              filename='aadhar_uploads/' ~ s[12]) }}"
-                                       class="img-fluid rounded"
-                                       style="max-height:80vh; transform:scale(1) rotate(0deg); transition: transform 0.2s;">
-                                {% else %}
-                                  <p class="text-danger">No Aadhar Photo Uploaded</p>
-                                {% endif %}
-                              </div>
-                              <div class="modal-footer d-flex justify-content-between">
-                                <div>
-                                  <button type="button" class="btn btn-sm btn-secondary"
-                                          onclick="zoomOut({{ s[0] }})">-</button>
-                                  <button type="button" class="btn btn-sm btn-secondary"
-                                          onclick="resetView({{ s[0] }})">Reset</button>
-                                  <button type="button" class="btn btn-sm btn-secondary"
-                                          onclick="zoomIn({{ s[0] }})">+</button>
-                                  <button type="button" class="btn btn-sm btn-secondary"
-                                          onclick="rotateImg({{ s[0] }})">Rotate</button>
-                                </div>
-                                {% if s[12] %}
-                                <a class="btn btn-sm btn-primary"
-                                   href="{{ url_for('static',
-                                           filename='aadhar_uploads/' ~ s[12]) }}"
-                                   download>
-                                   Download
-                                </a>
-                                {% endif %}
-                              </div>
-                            </div>
-                          </div>
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editModal{{ s[0] }}"
+                 tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <form method="POST"
+                        action="{{ url_for('edit_student', id=s[0]) }}"
+                        enctype="multipart/form-data">
+                    <div class="modal-header bg-primary text-white">
+                      <h5 class="modal-title">Edit Student</h5>
+                      <button type="button" class="btn-close"
+                              data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row g-3">
+                        <div class="col-md-4">
+                          <input type="text" name="name"
+                                 class="form-control"
+                                 value="{{ s[1] }}" required>
+                        </div>
+                        <div class="col-md-4">
+                          <input type="text" name="father"
+                                 class="form-control"
+                                 value="{{ s[2] }}" required>
+                        </div>
+                        <div class="col-md-4">
+                          <input type="text" name="phone"
+                                 class="form-control"
+                                 value="{{ s[3] }}" required>
+                        </div>
+                        <div class="col-md-4">
+                          <input type="text" name="address"
+                                 class="form-control"
+                                 value="{{ s[4] }}">
                         </div>
 
-                        <!-- Edit Modal -->
-                        <div class="modal fade" id="editModal{{ s[0] }}" tabindex="-1"
-                             aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <form method="POST"
-                                          action="{{ url_for('edit_student', id=s[0]) }}"
-                                          enctype="multipart/form-data">
-                                        <div class="modal-header bg-primary text-white">
-                                            <h5 class="modal-title">Edit Student</h5>
-                                            <button type="button" class="btn-close"
-                                                    data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row g-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Name</label>
-                                                    <input type="text" name="name"
-                                                           class="form-control"
-                                                           value="{{ s[1] }}" required>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Father's Name</label>
-                                                    <input type="text" name="father"
-                                                           class="form-control"
-                                                           value="{{ s[2] }}" required>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Phone</label>
-                                                    <input type="text" name="phone"
-                                                           class="form-control"
-                                                           value="{{ s[3] }}" required>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Address</label>
-                                                    <input type="text" name="address"
-                                                           class="form-control"
-                                                           value="{{ s[4] }}">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label class="form-label">Shift</label>
-                                                    <input type="text" name="shift"
-                                                           class="form-control"
-                                                           value="{{ s[5] }}">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label class="form-label">Sheet No</label>
-                                                    <input type="text" name="sheet_no"
-                                                           class="form-control"
-                                                           value="{{ s[6] }}">
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <label class="form-label">Admission Month</label>
-                                                    <select name="admission_month"
-                                                            class="form-control" required>
-                                                        {% set months = [
-                                                            'January','February','March','April',
-                                                            'May','June','July','August',
-                                                            'September','October','November','December'
-                                                        ] %}
-                                                        {% for m in months %}
-                                                            <option value="{{ m }}"
-                                                                {% if s[7] == m %}selected{% endif %}>
-                                                                {{ m }}
-                                                            </option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <label class="form-label">Fee Amount</label>
-                                                    <input type="number" step="0.01"
-                                                           name="fee_amount"
-                                                           class="form-control"
-                                                           value="{{ s[8] }}">
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Aadhar Number</label>
-                                                    <input type="text" name="aadhar_number"
-                                                           class="form-control"
-                                                           value="{{ s[9] }}">
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label class="form-label">
-                                                        Aadhar Photo
-                                                        <small class="text-muted">
-                                                            (leave empty to keep same)
-                                                        </small>
-                                                    </label>
-                                                    <input type="file" name="aadhar_image"
-                                                           class="form-control" accept="image/*">
-
-                                                    {% if s[12] %}
-                                                        <small>
-                                                            Current:
-                                                            <a href="{{ url_for('static',
-                                                                filename='aadhar_uploads/' ~ s[12]) }}"
-                                                               target="_blank">
-                                                                View
-                                                            </a>
-                                                        </small>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">
-                                                Save Changes
-                                            </button>
-                                            <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">
-                                                Close
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                        <div class="col-md-3">
+                          <select name="shift" class="form-select">
+                            <option value="">Select shift</option>
+                            {% for m in [
+                              '9 To 3','10 To 4','10 To 6','24/7','Night Shift','Full Day'
+                            ] %}
+                              <option value="{{ m }}" {% if s[5] == m %}selected{% endif %}>
+                                {{ m }}
+                              </option>
+                            {% endfor %}
+                          </select>
                         </div>
-                        {% endfor %}
-                    </tbody>
-                </table>
+
+                        <div class="col-md-2">
+                          <input type="text" name="sheet_no"
+                                 class="form-control"
+                                 value="{{ s[6] }}">
+                        </div>
+
+                        <div class="col-md-3">
+                          <select name="admission_month" class="form-select">
+                            <option value="">Admission Month</option>
+                            {% for m in [
+                              'January','February','March','April','May','June',
+                              'July','August','September','October','November','December'
+                            ] %}
+                              <option value="{{ m }}" {% if s[7] == m %}selected{% endif %}>
+                                {{ m }}
+                              </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+
+                        <div class="col-md-2">
+                          <input type="number" step="0.01"
+                                 name="fee_amount"
+                                 class="form-control"
+                                 value="{{ s[8] }}">
+                        </div>
+                        <div class="col-md-4">
+                          <input type="text" name="aadhar_number"
+                                 class="form-control"
+                                 value="{{ s[9] }}">
+                        </div>
+
+                        <div class="col-md-6">
+                          <label class="form-label">Change Aadhar Photo (optional)</label>
+                          <input type="file" name="aadhar_image"
+                                 class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success">
+                        Save Changes
+                      </button>
+                      <button type="button" class="btn btn-secondary"
+                              data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
-        </div>
+
+            <!-- Aadhar Photo Modal with Zoom + Download -->
+            {% if s[12] %}
+            <div class="modal fade" id="photoModal{{ s[0] }}"
+                 tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Aadhar Photo - {{ s[1] }}</h5>
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body text-center">
+
+                    <!-- Zoomable Image -->
+                    <img src="{{ url_for('static',
+                              filename='aadhar_uploads/' ~ s[12]) }}"
+                         id="aadharImg{{ s[0] }}"
+                         class="img-fluid rounded mb-3"
+                         style="max-height:500px; transition: transform 0.3s; cursor: zoom-in;"
+                         data-scale="1">
+
+                    <div class="d-flex justify-content-center gap-2 mt-2">
+                      <!-- Zoom In -->
+                      <button type="button"
+                              class="btn btn-info btn-sm"
+                              onclick="zoomIn('aadharImg{{ s[0] }}')">
+                        Zoom In
+                      </button>
+
+                      <!-- Zoom Out -->
+                      <button type="button"
+                              class="btn btn-warning btn-sm"
+                              onclick="zoomOut('aadharImg{{ s[0] }}')">
+                        Zoom Out
+                      </button>
+
+                      <!-- Download -->
+                      <a href="{{ url_for('static',
+                                  filename='aadhar_uploads/' ~ s[12]) }}"
+                         download
+                         class="btn btn-success btn-sm">
+                        Download
+                      </a>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </div>
 
-<!-- 🔧 Aadhar Image Controls (Zoom / Rotate / Reset) -->
+<!-- Simple Zoom JS -->
 <script>
-    function getImg(id) {
-        return document.getElementById('aadhar-img-' + id);
-    }
+function zoomIn(id) {
+  const img = document.getElementById(id);
+  let scale = parseFloat(img.getAttribute('data-scale') || '1');
+  scale += 0.2;
+  if (scale > 3) scale = 3;          // max zoom
+  img.style.transform = 'scale(' + scale + ')';
+  img.setAttribute('data-scale', scale.toString());
+  img.style.cursor = 'zoom-out';
+}
 
-    function zoomIn(id) {
-        const img = getImg(id);
-        if (!img) return;
-        const current = img.dataset.scale ? parseFloat(img.dataset.scale) : 1;
-        const next = current + 0.2;
-        img.dataset.scale = next;
-        applyTransform(img);
-    }
-
-    function zoomOut(id) {
-        const img = getImg(id);
-        if (!img) return;
-        const current = img.dataset.scale ? parseFloat(img.dataset.scale) : 1;
-        const next = Math.max(0.4, current - 0.2);
-        img.dataset.scale = next;
-        applyTransform(img);
-    }
-
-    function rotateImg(id) {
-        const img = getImg(id);
-        if (!img) return;
-        const current = img.dataset.rotate ? parseFloat(img.dataset.rotate) : 0;
-        const next = current + 90;
-        img.dataset.rotate = next;
-        applyTransform(img);
-    }
-
-    function resetView(id) {
-        const img = getImg(id);
-        if (!img) return;
-        img.dataset.scale = 1;
-        img.dataset.rotate = 0;
-        applyTransform(img);
-    }
-
-    function applyTransform(img) {
-        const scale = img.dataset.scale ? parseFloat(img.dataset.scale) : 1;
-        const rotate = img.dataset.rotate ? parseFloat(img.dataset.rotate) : 0;
-        img.style.transform = 'scale(' + scale + ') rotate(' + rotate + 'deg)';
-    }
+function zoomOut(id) {
+  const img = document.getElementById(id);
+  let scale = parseFloat(img.getAttribute('data-scale') || '1');
+  scale -= 0.2;
+  if (scale < 1) scale = 1;          // min zoom
+  img.style.transform = 'scale(' + scale + ')';
+  img.setAttribute('data-scale', scale.toString());
+  img.style.cursor = scale === 1 ? 'zoom-in' : 'zoom-out';
+}
 </script>
 {% endblock %}
