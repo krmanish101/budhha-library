@@ -1,46 +1,112 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Buddha Library{% endblock %}
+
 {% block content %}
-<h2>Dashboard Overview</h2>
-<div class="row mt-4">
-  <div class="col-md-3">
-    <div class="card text-center p-3">
-      <h5>Total Students</h5>
-      <h3>{{ total_students }}</h3>
+
+<div class="container-fluid">
+
+  <!-- PAGE TITLE -->
+  <div class="mb-3">
+    <h3 class="fw-bold">Dashboard</h3>
+    <p class="text-muted mb-0">
+      Welcome to Buddha Library admin panel
+    </p>
+  </div>
+
+  <!-- TOP STATS -->
+  <div class="row g-3 mb-4">
+
+    <div class="col-md-4 col-lg-3">
+      <div class="dashboard-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="label">Active Students</div>
+            <div class="value">{{ total_students }}</div>
+            <small class="text-muted">Currently active</small>
+          </div>
+          <div class="fs-2">🎓</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+      <div class="dashboard-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="label">Old / Inactive Students</div>
+            <div class="value">{{ old_students }}</div>
+            <small class="text-muted">Moved to Old Students</small>
+          </div>
+          <div class="fs-2">📦</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+      <div class="dashboard-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="label">TOTAL FEE COLLECTED</div>
+            <div class="value text-danger">₹ {{ total_fees }}</div>
+          </div>
+          <div class="fs-2">💰</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MONTHLY FEES -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="dashboard-card">
+        <div class="label fw-bold mb-2">Monthly Fee Collection</div>
+        <div class="value">₹ {{ total_fees }}</div>
+      </div>
     </div>
   </div>
-  <!--
-  <div class="col-md-3">
-    <div class="card text-center p-3">
-      <h5>Total Books</h5>
-      <h3>{{ total_books }}</h3>
+
+  <!-- BOOKS -->
+  <div class="row g-3 mb-5">
+
+    <div class="col-md-6 col-lg-3">
+      <div class="dashboard-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="label">Total Books</div>
+            <div class="value">{{ total_books }}</div>
+            <small class="text-muted">All titles in catalog</small>
+          </div>
+          <div class="fs-2">📘</div>
+        </div>
+      </div>
     </div>
-  </div>  
-  <div class="col-md-3">
-    <div class="card text-center p-3">
-      <h5>Issued Books</h5>
-      <h3>{{ issued_books }}</h3>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="dashboard-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="label">Books Issued</div>
+            <div class="value">{{ issued_books }}</div>
+            <small class="text-muted">Currently issued</small>
+          </div>
+          <div class="fs-2">📖</div>
+        </div>
+      </div>
     </div>
+
   </div>
-  -->
-  
-  <div class="col-md-3">
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <h5 class="card-title text-danger">Old Students</h5>
-      <p class="card-text display-6">{{ inactive_students }}</p>
-      <a href="{{ url_for('deleted_students') }}" class="btn btn-outline-danger btn-sm">
-        View Deleted
-      </a>
-    </div>
-  </div>
+
 </div>
 
-  
-  <div class="col-md-3">
-    <div class="card text-center p-3">
-      <h5>Total Fees Collected</h5>
-      <h3>₹{{ total_fees }}</h3>
+<!-- ================= FOOTER ================= -->
+<footer class="mt-auto py-3">
+  <div class="container-fluid">
+    <div class="fw-bold text-muted">
+      © 2025 Buddha Library — Telhara Nalanda
     </div>
   </div>
-</div>
+</footer>
+
 {% endblock %}

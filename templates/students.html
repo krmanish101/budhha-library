@@ -83,6 +83,36 @@
       </form>
     </div>
   </div>
+<!-- Filter bar -->
+<form method="get" class="row g-2 mb-3">
+  <div class="col-auto">
+    <input type="text" name="name" class="form-control filter-input"
+           placeholder="Name"
+           value="{{ name or '' }}">
+  </div>
+  <div class="col-auto">
+    <input type="text" name="admission_month" class="form-control filter-input"
+           placeholder="Month"
+           value="{{ filter_month or '' }}">
+  </div>
+
+  <div class="col-auto">
+    <input type="text" name="sheet_no" class="form-control filter-input"
+           placeholder="Sheet No"
+           value="{{ filter_sheet or '' }}">
+  </div>
+
+  <div class="col-auto de-flex gap-2">
+    <button type="submit" class="btn btn-primary filter-btn">
+      Filter
+    </button>
+
+    <a href="{{ url_for('students') }}"
+       class="btn btn-outline-secondary filter-Clear-btn">
+      Clear
+    </a>
+  </div>
+</form>
 
   <!-- Students Table -->
   <div class="card shadow-sm mb-4">

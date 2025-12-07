@@ -1,61 +1,156 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Budhha Library Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { background-color: #f8f9fa; }
-    .sidebar {
-      height: 100vh;
-      position: fixed;
-      left: 0;
-      top: 0;
-      background-color: #212529;
-      width: 240px;
-      color: white;
-      padding-top: 1rem;
-    }
-    .sidebar a {
-      display: block;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-    }
-    .sidebar a:hover {
-      background-color: #495057;
-    }
-    .content {
-      margin-left: 250px;
-      padding: 20px;
-    }
-  </style>
-</head>
-<div class="content">
-    {% block content %}
-    {% endblock %}
-  </div>
-  <li class="nav-item">
-   <a class="nav-link text-danger" href="{{ url_for('deleted_students') }}">
-      Deleted Students
-   </a>
-</li>
-<body>
-  <div class="sidebar">
-    <h4 class="text-center">📚 Budhha Library</h4>
-    <hr>
-    <a href="/">🏠 Dashboard</a>
-    <a href="/students">👨‍🎓 Students</a>
-    <!-- <a href="/books">📘 Books</a> -->
-    
-    <a href="/deleted_students">👨‍🎓 Old Students</a>
-    <a href="/reports">📊 Reports</a>
-    
-  </div>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
+    <title>{% block title %}Buddha Library{% endblock %}</title>
 
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet">
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    {% block extra_head %}{% endblock %}
+  </head>
+
+  <!-- default theme light, JS baad me change karega -->
+  <body data-theme="light">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-main">
+      <div class="container-fluid">
+        <!-- Brand -->
+        <a class="navbar-brand fw-semibold" href="{{ url_for('index') }}">
+          Buddha Library
+        </a>
+
+        <!-- Mobile toggler -->
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Nav links + search + theme + auth -->
+        <div class="collapse navbar-collapse" id="mainNav">
+          <!-- Left nav -->
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('students') }}">Students</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('deleted_students') }}">Old Students</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('books') }}">Books</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('reports') }}">Reports</a>
+            </li>
+          </ul>
+
+          <!-- Right side: search + theme + auth -->
+          <div class="d-flex align-items-center gap-2">
+
+            <!-- Search form -->
+            <form class="d-flex align-items-center search-form"
+                  action="{{ url_for('students') }}" method="get" role="search">
+              <input class="form-control form-control-sm search-input"
+                     type="search" name="name"
+                     placeholder="Search name..."
+                     aria-label="Search">
+              <button class="btn btn-light btn-sm ms-1 btn-search-icon"
+                      type="submit">
+                <!-- sirf search icon -->
+                <span aria-hidden="true">🔍</span>
+              </button>
+            </form>
+
+            <!-- Theme toggle -->
+            <button id="themeToggle"
+                    class="btn btn-outline-light btn-sm theme-toggle-btn"
+                    type="button"
+                    title="Toggle dark / light">
+              🌙
+            </button>
+
+            <!-- Auth -->
+            {% if session.get('logged_in') %}
+              <span class="navbar-text ms-1 me-1 small">
+                Hi, {{ session.get('admin_name') }}
+              </span>
+              <a class="btn btn-outline-light btn-sm"
+                 href="{{ url_for('logout') }}">
+                Logout
+              </a>
+            {% else %}
+              <a class="btn btn-outline-light btn-sm"
+                 href="{{ url_for('login') }}">
+                Login
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- FLASH MESSAGES -->
+    <main class="container-fluid py-4">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="container mb-3">
+            {% for category, msg in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ msg }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Theme toggle JS (localStorage based, pure frontend) -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const body = document.body;
+        const toggleBtn = document.getElementById('themeToggle');
+
+        function applyTheme(theme) {
+          body.dataset.theme = theme;
+          if (toggleBtn) {
+            toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+          }
+        }
+
+        // initial theme from localStorage
+        const savedTheme = localStorage.getItem('bl_theme') || 'light';
+        applyTheme(savedTheme);
+
+        if (toggleBtn) {
+          toggleBtn.addEventListener('click', function () {
+            const newTheme = (body.dataset.theme === 'dark') ? 'light' : 'dark';
+            localStorage.setItem('bl_theme', newTheme);
+            applyTheme(newTheme);
+          });
+        }
+      });
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+  </body>
 </html>

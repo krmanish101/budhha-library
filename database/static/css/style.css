@@ -1,22 +1,111 @@
+/* ---------- GLOBAL THEME VARIABLES ---------- */
+
+/* Light by default */
 body {
-  background-color: #f5f6fa;
-  font-family: "Segoe UI", sans-serif;
+  --bg-color: #f5f7fb;
+  --text-color: #111827;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --table-header-bg: #111827;
+  --table-header-text: #ffffff;
 }
 
-#sidebar {
-  width: 220px;
-  transition: all 0.3s;
+/* Dark theme overrides */
+body[data-theme="dark"] {
+  --bg-color: #111827;
+  --text-color: #f9fafb;
+  --card-bg: #1f2937;
+  --card-border: #374151;
+  --table-header-bg: #111827;
+  --table-header-text: #f9fafb;
 }
 
-.nav-link:hover {
-  background-color: #495057;
-  border-radius: 5px;
+/* Apply variables */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
+/* Cards, panels */
 .card {
-  border: none;
-  transition: transform 0.2s;
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
 }
-.card:hover {
-  transform: translateY(-3px);
+
+/* Table headers */
+.table thead {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+}
+
+/* Footer text, small muted */
+.text-muted {
+  color: #6b7280 !important;
+}
+body[data-theme="dark"] .text-muted {
+  color: #9ca3af !important;
+}
+
+/* Navbar shadow */
+.navbar-main {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ---------- SEARCH BAR ---------- */
+
+.search-form {
+  max-width: 320px;
+}
+
+.search-input {
+  min-width: 190px;
+  background-color: #e5edff;
+  border-color: #c7d2fe;
+}
+
+.search-input::placeholder {
+  color: #6b7280;
+}
+
+body[data-theme="dark"] .search-input {
+  background-color: #1f2937;
+  border-color: #4b5563;
+  color: #f9fafb;
+}
+
+.btn-search-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.45rem;
+  line-height: 1;
+}
+
+/* ---------- THEME TOGGLE BUTTON ---------- */
+
+.theme-toggle-btn {
+  width: 2.1rem;
+  padding: 0.25rem 0;
+  text-align: center;
+}
+
+/* ---------- DASHBOARD / COMMON LAYOUT ---------- */
+
+.dashboard-card {
+  border-radius: 0.75rem;
+  border: 1px solid var(--card-border);
+  background-color: var(--card-bg);
+}
+
+/* Optional: make big white area thoda soft */
+.container-fluid {
+  background-color: transparent;
+}
+
+/* Ensure buttons are visible on primary navbar */
+.navbar-main .btn-outline-light {
+  border-color: rgba(255,255,255,0.7);
+}
+.navbar-main .btn-outline-light:hover {
+  background-color: rgba(255,255,255,0.15);
 }
